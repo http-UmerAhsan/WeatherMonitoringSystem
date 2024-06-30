@@ -77,7 +77,7 @@ class WeatherData {
     private double humidity;
     private double windSpeed;
     private Location location;
-
+```java
     public WeatherData(double temperature, double humidity, double windSpeed, Location location) {
         this.temperature = temperature;
         this.humidity = humidity;
@@ -123,6 +123,7 @@ class WeatherData {
   - `java.io.InputStreamReader`
   - `com.google.gson.JsonObject`
   - `com.google.gson.JsonParser`
+```java
 class WeatherApiClient {
     private static final String API_KEY = "89c7d050a502a21d982b9d621f542214";
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
@@ -168,7 +169,7 @@ class WeatherApiClient {
   - `displayGoodbyeMessage()`: Displays a goodbye message.
 - **Libraries Used**:
   - `java.util.Scanner`
-  ```java
+```java
 class UserInterface {
     private WeatherApiClient weatherApiClient;
     private Scanner scanner;
