@@ -1,8 +1,7 @@
 # WeatherMonitoringSystem
  This is my first project in java and also my project for my first coding competition 'The Wise Sapiens Code Conquest'
-```markdown
-# Weather Monitoring System
 
+# Weather Monitoring System
 ## Introduction
 The Weather Monitoring System is a Java-based application that allows users to fetch and display current weather information for any city and country. This application uses the OpenWeatherMap API to get real-time weather data, making it a reliable tool for checking weather conditions.
 
@@ -144,4 +143,3 @@ Alternatively, you can run and debug your program using the Debug view:
 The Weather Monitoring System provides an easy and efficient way to check current weather conditions for any city and country. By leveraging the OpenWeatherMap API and implementing a user-friendly interface, this application serves as a practical example of integrating external APIs into a Java application. We can further improve this program by creating a graphical user interface.
 
 **Note**: The information provided by the program may not be accurate since we are using a free API.
-```
