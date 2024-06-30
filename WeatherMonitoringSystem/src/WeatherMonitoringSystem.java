@@ -86,7 +86,7 @@ class WeatherData {
 
 // This class handles the communication with the OpenWeatherMap API to fetch weather data.
 class WeatherApiClient {
-    private static final String API_KEY = "89c7d050a502a21d982b9d621f542214";
+    private static final String API_KEY = "YOUR_API_KEY";//Enter Your API key from OpenWeather Here.
     private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
     public WeatherData fetchWeatherData(Location location) throws Exception {
