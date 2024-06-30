@@ -71,13 +71,12 @@ class Location {
   - `getWindSpeed()`: Returns the wind speed.
   - `getLocation()`: Returns the location.
   - `toString()`: Returns a string representation of the weather data.
-    ```java
+```java
 class WeatherData {
     private double temperature;
     private double humidity;
     private double windSpeed;
     private Location location;
-```java
     public WeatherData(double temperature, double humidity, double windSpeed, Location location) {
         this.temperature = temperature;
         this.humidity = humidity;
