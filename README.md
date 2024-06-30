@@ -1,6 +1,3 @@
-# WeatherMonitoringSystem
- This is my first project in java and also my project for my first coding competition 'The Wise Sapiens Code Conquest'
-
 # Weather Monitoring System
 ## Introduction
 The Weather Monitoring System is a Java-based application that allows users to fetch and display current weather information for any city and country. This application uses the OpenWeatherMap API to get real-time weather data, making it a reliable tool for checking weather conditions.
@@ -14,7 +11,7 @@ The Weather Monitoring System is a Java-based application that allows users to f
 The Weather Monitoring System can be used by anyone who needs to quickly check the weather conditions for a specific city and country. It is designed to be user-friendly, providing essential weather information such as temperature, humidity, and wind speed.
 
 ## Working
-There are a total of 5 classes in this program, and the function of each class is explained below:
+There are a total of 5 classes in this program and the function of each class is explained below:
 
 ### 1. Location
 - **Attributes**: `city`, `country`
@@ -24,6 +21,46 @@ There are a total of 5 classes in this program, and the function of each class i
   - `equals(Object o)`: Checks if two locations are equal.
   - `hashCode()`: Generates a hash code for the location.
   - `toString()`: Returns a string representation of the location.
+
+```java
+class Location {
+    private String city;
+    private String country;
+
+    public Location(String city, String country) {
+        this.city = city;
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Location location = (Location) o;
+        return city.equals(location.city) && country.equals(location.country);
+    }
+
+    @Override
+    public int hashCode() {
+        return city.hashCode() + country.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return city + ", " + country;
+    }
+}
+
 - **Description**: This class represents a geographical location with a city and country.
 
 ### 2. WeatherData
@@ -34,6 +71,45 @@ There are a total of 5 classes in this program, and the function of each class i
   - `getWindSpeed()`: Returns the wind speed.
   - `getLocation()`: Returns the location.
   - `toString()`: Returns a string representation of the weather data.
+    ```java
+class WeatherData {
+    private double temperature;
+    private double humidity;
+    private double windSpeed;
+    private Location location;
+
+    public WeatherData(double temperature, double humidity, double windSpeed, Location location) {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.windSpeed = windSpeed;
+        this.location = location;
+    }
+
+    public double getTemperature() {
+        return temperature;
+    }
+
+    public double getHumidity() {
+        return humidity;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    @Override
+    public String toString() {
+        return "Location: " + location.getCity() + ", " + location.getCountry() +
+                "\nTemperature: " + temperature + "°C" +
+                "\nHumidity: " + humidity + "%" +
+                "\nWind Speed: " + windSpeed + " m/s";
+    }
+}
+
 - **Description**: This class encapsulates the weather data for a specific location.
 
 ### 3. WeatherApiClient
@@ -47,6 +123,39 @@ There are a total of 5 classes in this program, and the function of each class i
   - `java.io.InputStreamReader`
   - `com.google.gson.JsonObject`
   - `com.google.gson.JsonParser`
+class WeatherApiClient {
+    private static final String API_KEY = "89c7d050a502a21d982b9d621f542214";
+    private static final String BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
+
+    public WeatherData fetchWeatherData(Location location) throws Exception {
+        String urlString = String.format("%s?q=%s,%s&units=metric&appid=%s",
+                BASE_URL, location.getCity(), location.getCountry(), API_KEY);
+        URL url = new URL(urlString);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        int responseCode = conn.getResponseCode();
+        if (responseCode == 200) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            String inputLine;
+            StringBuilder response = new StringBuilder();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            JsonObject jsonObject = JsonParser.parseString(response.toString()).getAsJsonObject();
+            double temperature = jsonObject.getAsJsonObject("main").get("temp").getAsDouble();
+            double humidity = jsonObject.getAsJsonObject("main").get("humidity").getAsDouble();
+            double windSpeed = jsonObject.getAsJsonObject("wind").get("speed").getAsDouble();
+
+            return new WeatherData(temperature, humidity, windSpeed, location);
+        } else {
+            throw new RuntimeException("Failed to get weather data: " + responseCode);
+        }
+    }
+}
 - **Description**: This class handles the communication with the OpenWeatherMap API to fetch weather data.
 
 ### 4. UserInterface
@@ -58,6 +167,7 @@ There are a total of 5 classes in this program, and the function of each class i
   - `displayGoodbyeMessage()`: Displays a goodbye message.
 - **Libraries Used**:
   - `java.util.Scanner`
+
 - **Description**: This class handles the user interface, allowing the user to interact with the weather monitoring system.
 
 ### 5. WeatherMonitoringSystem
