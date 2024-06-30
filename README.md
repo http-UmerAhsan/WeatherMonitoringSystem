@@ -60,7 +60,7 @@ class Location {
         return city + ", " + country;
     }
 }
-
+```
 - **Description**: This class represents a geographical location with a city and country.
 
 ### 2. WeatherData
@@ -109,7 +109,7 @@ class WeatherData {
                 "\nWind Speed: " + windSpeed + " m/s";
     }
 }
-
+```
 - **Description**: This class encapsulates the weather data for a specific location.
 
 ### 3. WeatherApiClient
@@ -156,6 +156,7 @@ class WeatherApiClient {
         }
     }
 }
+```
 - **Description**: This class handles the communication with the OpenWeatherMap API to fetch weather data.
 
 ### 4. UserInterface
@@ -167,12 +168,96 @@ class WeatherApiClient {
   - `displayGoodbyeMessage()`: Displays a goodbye message.
 - **Libraries Used**:
   - `java.util.Scanner`
+  ```java
+class UserInterface {
+    private WeatherApiClient weatherApiClient;
+    private Scanner scanner;
+    private static final int TERMINAL_WIDTH = 145;
 
+    public UserInterface() {
+        this.weatherApiClient = new WeatherApiClient();
+        this.scanner = new Scanner(System.in);
+    }
+
+    public void start() {
+        displayWelcomeMessage();
+        while (true) {
+            System.out.println("1. View Current Weather");
+            System.out.println("2. Exit");
+            System.out.print("Enter Choice: ");
+            String input = scanner.nextLine();
+            int choice = -1;
+            try {
+                choice = Integer.parseInt(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid choice, Try again!");
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    viewCurrentWeather();
+                    break;
+                case 2:
+                    displayGoodbyeMessage();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice, try again.");
+            }
+        }
+    }
+
+    private void viewCurrentWeather() {
+        System.out.print("\nEnter city name: ");
+        String city = scanner.nextLine();
+        System.out.print("Enter country name: ");
+        String country = scanner.nextLine();
+        Location location = new Location(city, country);
+        try {
+            WeatherData data = weatherApiClient.fetchWeatherData(location);
+            System.out.println("=================================");
+            System.out.println("Current Weather:\n" + data);
+            System.out.println("=================================");
+        } catch (Exception e) {
+            System.out.println("Error fetching weather data: " + e.getMessage());
+        }
+    }
+
+    private void displayWelcomeMessage() {
+        String separator = "==========================================================================================================================================";
+        String welcomeMessage = "Welcome to Weather Monitoring System created by http-UmerAhsan";
+        int paddingSize = (TERMINAL_WIDTH - welcomeMessage.length()) / 2;
+        String padding = " ".repeat(Math.max(0, paddingSize));
+        System.out.println(separator);
+        System.out.println(padding + welcomeMessage);
+        System.out.println(separator);
+    }
+
+    private void displayGoodbyeMessage() {
+        String separator = "==========================================================================================================================================";
+        String goodbyeMessage = "Thank you for using our weather monitoring system! Stay weather aware!";
+        int paddingSize = (TERMINAL_WIDTH - goodbyeMessage.length()) / 2;
+        String padding = " ".repeat(Math.max(0, paddingSize));
+        System.out.println(separator);
+        System.out.println(padding + goodbyeMessage);
+        System.out.println(separator);
+    }
+}
+```
 - **Description**: This class handles the user interface, allowing the user to interact with the weather monitoring system.
 
 ### 5. WeatherMonitoringSystem
 - **Methods**:
   - `main(String[] args)`: The main method that initializes and starts the user interface.
+```java
+public class WeatherMonitoringSystem {
+    public static void main(String[] args) {
+        UserInterface ui = new UserInterface();
+        ui.start();
+    }
+}
+```
 - **Description**: This is the entry point of the application.
 
 ## How to Run This Code on Visual Studio Code
